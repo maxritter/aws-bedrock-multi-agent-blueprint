@@ -4,7 +4,14 @@ The AWS Bedrock Multi-Agent Blueprint is a project that allows you to create and
 
 Here is a video of the application in action:
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/osjZSjEMR78?si=A-ndUHaZR0GnXtSR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<div align="left">
+      <a href="https://www.youtube.com/watch?v=osjZSjEMR78">
+     <img
+      src="https://img.youtube.com/vi/osjZSjEMR78/0.jpg"
+      alt="Bedrock Multi-Agent Blueprint Demo Video"
+      style="width:300px;">
+      </a>
+    </div>
 
 ## Table of Contents
 
