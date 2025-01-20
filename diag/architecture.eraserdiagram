@@ -1,0 +1,53 @@
+cloud-architecture-diagram
+
+typeface rough
+direction: right
+User [icon: user]
+API [icon: api, label: "External API"]
+
+AWS [icon: aws, label: "AWS Account"] {
+    Application [color: gray, icon: server, label: "Application"] {
+        ECR [icon: aws-ecr, label: "Container Registry"]
+        Cognito [icon: aws-cognito, label: "Cognito Users"]
+        Service [icon: aws-ecs, label: "App Service"]
+    }
+    
+    Storage [color: red, icon: server, label: "Storage"] {
+        Bucket [icon: aws-s3, label: "S3 PDF Bucket"]
+        Vector [icon: aws-rds, label: "RDS Vector Database"]
+    }
+    
+    Bedrock [color: blue, icon: server, label: "Bedrock Agents"] {
+        Supervisor [icon: aws-sagemaker, label: "Supervisor Agent"]
+        RAG [icon: aws-sagemaker, label: "RAG Agent"]
+        Action [icon: aws-lambda, label: "Lambda Action Group"]
+        Tools [icon: aws-sagemaker, label: "Tools Agent"]
+        KB [icon: aws-bedrock, label: "Knowledge Base"]
+        LLM [icon: claude, label: "Claude 3.5 Sonnet"]
+    }
+    
+    LangFuse [color: green, icon: server, label: "LangFuse Monitoring"] {
+        Evaluation [icon: aws-cloudwatch, label: "Evaluation"]
+        Tracing [icon: aws-cloudtrail, label: "Tracing"]
+        Costs [icon: aws-cost-explorer, label: "Costs"]
+    }
+}
+
+ECR > Service
+Cognito > Service
+Service > User
+Service > Supervisor
+Bucket > Vector: Generate Embeddings
+Vector > KB: Fetch Embeddings
+RAG > KB: RAG
+Supervisor > RAG: Multi-Agent Collaboration
+Supervisor > Tools: Multi-Agent Collaboration
+Tools > Action: Tools Calling
+RAG > LLM
+Tools > LLM
+Supervisor > LLM
+Action > API
+LLM > Tracing
+LLM > Evaluation
+LLM > Costs
+

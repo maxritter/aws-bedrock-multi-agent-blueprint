@@ -1,0 +1,6 @@
+pydantic~=2.10.3
+boto3~=1.35.81
+aws-lambda-powertools~=3.4.0
+aws-xray-sdk~=2.14.0
+requests~=2.32.3
+geopy~=2.4.1

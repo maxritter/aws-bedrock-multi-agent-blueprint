@@ -1,0 +1,960 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Powertools API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/"
+        }
+    ],
+    "paths": {
+        "/search_trials": {
+            "get": {
+                "summary": "GET /search_trials",
+                "description": "Search for clinical trials based on criteria",
+                "operationId": "searchTrials",
+                "parameters": [
+                    {
+                        "description": "Name of the lead sponsor organization, f. ex. Boehringer Ingelheim",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "title": "Lead Sponsor Name",
+                            "description": "Name of the lead sponsor organization, f. ex. Boehringer Ingelheim",
+                            "nullable": true
+                        },
+                        "name": "lead_sponsor_name",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Disease or condition being studied, f. ex. lung cancer",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "title": "Disease Area",
+                            "description": "Disease or condition being studied, f. ex. lung cancer",
+                            "nullable": true
+                        },
+                        "name": "disease_area",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Current overall status of the study, f. ex. RECRUITING",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "enum": [
+                                        "ACTIVE_NOT_RECRUITING",
+                                        "COMPLETED",
+                                        "ENROLLING_BY_INVITATION",
+                                        "NOT_YET_RECRUITING",
+                                        "RECRUITING",
+                                        "SUSPENDED",
+                                        "TERMINATED",
+                                        "WITHDRAWN",
+                                        "AVAILABLE",
+                                        "NO_LONGER_AVAILABLE",
+                                        "TEMPORARILY_NOT_AVAILABLE",
+                                        "APPROVED_FOR_MARKETING",
+                                        "WITHHELD",
+                                        "UNKNOWN"
+                                    ]
+                                }
+                            ],
+                            "title": "Overall Status",
+                            "description": "Current overall status of the study, f. ex. RECRUITING",
+                            "nullable": true
+                        },
+                        "name": "overall_status",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Country where the study is conducted, f. ex. United States",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "title": "Location Country",
+                            "description": "Country where the study is conducted, f. ex. United States",
+                            "nullable": true
+                        },
+                        "name": "location_country",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Successfully retrieved matching clinical trials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/MinimalClinicalTrial"
+                                    },
+                                    "type": "array",
+                                    "title": "Return",
+                                    "description": "List of matching clinical trials with minimal information"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error occurred while searching trials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/MinimalClinicalTrial"
+                                    },
+                                    "type": "array",
+                                    "title": "Return",
+                                    "description": "List of matching clinical trials with minimal information"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trial_details": {
+            "get": {
+                "summary": "GET /trial_details",
+                "description": "Get detailed information for a specific clinical trial",
+                "operationId": "trialDetails",
+                "parameters": [
+                    {
+                        "description": "The NCT ID of the trial, f. ex. NCT05888888",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Nct Id",
+                            "description": "The NCT ID of the trial, f. ex. NCT05888888"
+                        },
+                        "name": "nct_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Successfully retrieved trial details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClinicalTrial",
+                                    "description": "Detailed information about the clinical trial"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trial not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClinicalTrial",
+                                    "description": "Detailed information about the clinical trial"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error occurred while fetching trial details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClinicalTrial",
+                                    "description": "Detailed information about the clinical trial"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/closest_trials": {
+            "get": {
+                "summary": "GET /closest_trials",
+                "description": "Find trials closest to the user's location",
+                "operationId": "closestTrials",
+                "parameters": [
+                    {
+                        "description": "List of NCT IDs",
+                        "required": true,
+                        "schema": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array",
+                            "title": "Nct Ids",
+                            "description": "List of NCT IDs"
+                        },
+                        "name": "nct_ids",
+                        "in": "query"
+                    },
+                    {
+                        "description": "User's city",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "title": "City",
+                            "description": "User's city",
+                            "nullable": true
+                        },
+                        "name": "city",
+                        "in": "query"
+                    },
+                    {
+                        "description": "User's state/province",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "title": "State",
+                            "description": "User's state/province",
+                            "nullable": true
+                        },
+                        "name": "state",
+                        "in": "query"
+                    },
+                    {
+                        "description": "User's ZIP/postal code",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "title": "Zip Code",
+                            "description": "User's ZIP/postal code",
+                            "nullable": true
+                        },
+                        "name": "zip_code",
+                        "in": "query"
+                    },
+                    {
+                        "description": "User's country",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "title": "Country",
+                            "description": "User's country",
+                            "nullable": true
+                        },
+                        "name": "country",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Maximum distance in kilometers",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "number"
+                                }
+                            ],
+                            "title": "Max Distance",
+                            "description": "Maximum distance in kilometers",
+                            "default": 500,
+                            "nullable": true
+                        },
+                        "name": "max_distance",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Successfully found nearby trials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/NearbyTrial"
+                                    },
+                                    "type": "array",
+                                    "title": "Return",
+                                    "description": "List of trials sorted by distance to the user"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No trials found within the specified distance",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/NearbyTrial"
+                                    },
+                                    "type": "array",
+                                    "title": "Return",
+                                    "description": "List of trials sorted by distance to the user"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error occurred while finding closest trials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/NearbyTrial"
+                                    },
+                                    "type": "array",
+                                    "title": "Return",
+                                    "description": "List of trials sorted by distance to the user"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inclusion_criteria": {
+            "get": {
+                "summary": "GET /inclusion_criteria",
+                "description": "Get inclusion criteria for a clinical trial",
+                "operationId": "getInclusions",
+                "parameters": [
+                    {
+                        "description": "The NCT ID of the trial, f. ex. NCT05888888",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Nct Id",
+                            "description": "The NCT ID of the trial, f. ex. NCT05888888"
+                        },
+                        "name": "nct_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Successfully retrieved inclusion criteria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "title": "Return",
+                                    "description": "Formatted inclusion criteria as a numbered list, or None if not found",
+                                    "nullable": true
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trial not found or no inclusion criteria available",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "title": "Return",
+                                    "description": "Formatted inclusion criteria as a numbered list, or None if not found",
+                                    "nullable": true
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error occurred while fetching inclusion criteria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "title": "Return",
+                                    "description": "Formatted inclusion criteria as a numbered list, or None if not found",
+                                    "nullable": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/exclusion_criteria": {
+            "get": {
+                "summary": "GET /exclusion_criteria",
+                "description": "Get exclusion criteria for a clinical trial",
+                "operationId": "getExclusions",
+                "parameters": [
+                    {
+                        "description": "The NCT ID of the trial, f. ex. NCT05888888",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Nct Id",
+                            "description": "The NCT ID of the trial, f. ex. NCT05888888"
+                        },
+                        "name": "nct_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Successfully retrieved exclusion criteria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "title": "Return",
+                                    "description": "Formatted exclusion criteria as a numbered list, or None if not found",
+                                    "nullable": true
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trial not found or no exclusion criteria available",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "title": "Return",
+                                    "description": "Formatted exclusion criteria as a numbered list, or None if not found",
+                                    "nullable": true
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error occurred while fetching exclusion criteria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "title": "Return",
+                                    "description": "Formatted exclusion criteria as a numbered list, or None if not found",
+                                    "nullable": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ClinicalTrial": {
+                "properties": {
+                    "nct_id": {
+                        "type": "string",
+                        "title": "Nct Id",
+                        "description": "The NCT ID / ClinicalTrials.gov identifier of the trial"
+                    },
+                    "phase": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Phase",
+                        "description": "Phase of the clinical trial",
+                        "nullable": true
+                    },
+                    "org_study_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Org Study Id",
+                        "description": "Organization's unique study identifier",
+                        "nullable": true
+                    },
+                    "status": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Status",
+                        "description": "Current recruitment status",
+                        "nullable": true
+                    },
+                    "condition": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Condition",
+                        "description": "Conditions under study",
+                        "nullable": true
+                    },
+                    "completion_date": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Completion Date",
+                        "description": "Primary completion date",
+                        "nullable": true
+                    },
+                    "enrollment_count": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "title": "Enrollment Count",
+                        "description": "Number of participants enrolled",
+                        "nullable": true
+                    },
+                    "study_type": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Study Type",
+                        "description": "Type of study",
+                        "nullable": true
+                    },
+                    "arm": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Arm",
+                        "description": "Study arm label",
+                        "nullable": true
+                    },
+                    "drug": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Drug",
+                        "description": "Intervention name",
+                        "nullable": true
+                    },
+                    "study_population": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Study Population",
+                        "description": "Description of study population",
+                        "nullable": true
+                    },
+                    "sponsor": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Sponsor",
+                        "description": "Lead sponsor name",
+                        "nullable": true
+                    },
+                    "collaborator": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Collaborator",
+                        "description": "Study collaborators",
+                        "nullable": true
+                    },
+                    "start_date": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Start Date",
+                        "description": "Study start date",
+                        "nullable": true
+                    },
+                    "primary_measure": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Primary Measure",
+                        "description": "Primary outcome measure",
+                        "nullable": true
+                    },
+                    "purpose": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Purpose",
+                        "description": "Primary purpose of the study",
+                        "nullable": true
+                    },
+                    "brief_title": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Brief Title",
+                        "description": "Brief title of the study",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "nct_id"
+                ],
+                "title": "ClinicalTrial"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "Location": {
+                "properties": {
+                    "facility": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Facility",
+                        "description": "Facility name",
+                        "nullable": true
+                    },
+                    "status": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Status",
+                        "description": "Individual site recruitment status",
+                        "nullable": true
+                    },
+                    "city": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "City",
+                        "description": "City",
+                        "nullable": true
+                    },
+                    "state": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "State",
+                        "description": "State/Province",
+                        "nullable": true
+                    },
+                    "zip": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Zip",
+                        "description": "ZIP/Postal code",
+                        "nullable": true
+                    },
+                    "country": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Country",
+                        "description": "Country",
+                        "nullable": true
+                    },
+                    "country_code": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Country Code",
+                        "description": "ISO country code",
+                        "nullable": true
+                    },
+                    "contacts": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/LocationContact"
+                                },
+                                "type": "array"
+                            }
+                        ],
+                        "title": "Contacts",
+                        "description": "Facility contacts",
+                        "nullable": true
+                    },
+                    "geo_point": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": {
+                                    "type": "number"
+                                },
+                                "type": "object"
+                            }
+                        ],
+                        "title": "Geo Point",
+                        "description": "Geographical coordinates",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "title": "Location"
+            },
+            "LocationContact": {
+                "properties": {
+                    "name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Name",
+                        "description": "Contact name and degree",
+                        "nullable": true
+                    },
+                    "role": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Role",
+                        "description": "Contact role/investigator type",
+                        "nullable": true
+                    },
+                    "phone": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Phone",
+                        "description": "Contact phone number",
+                        "nullable": true
+                    },
+                    "phone_ext": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Phone Ext",
+                        "description": "Phone extension",
+                        "nullable": true
+                    },
+                    "email": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "title": "Email",
+                        "description": "Contact email",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "title": "LocationContact"
+            },
+            "MinimalClinicalTrial": {
+                "properties": {
+                    "nct_id": {
+                        "type": "string",
+                        "title": "Nct Id",
+                        "description": "The NCT ID / ClinicalTrials.gov identifier of the trial"
+                    },
+                    "brief_title": {
+                        "type": "string",
+                        "title": "Brief Title",
+                        "description": "Brief title of the study"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "nct_id",
+                    "brief_title"
+                ],
+                "title": "MinimalClinicalTrial"
+            },
+            "NearbyTrial": {
+                "properties": {
+                    "nct_id": {
+                        "type": "string",
+                        "title": "Nct Id",
+                        "description": "The NCT ID of the trial"
+                    },
+                    "distance_km": {
+                        "type": "number",
+                        "title": "Distance Km",
+                        "description": "Distance to the closest location in kilometers"
+                    },
+                    "closest_location": {
+                        "$ref": "#/components/schemas/Location",
+                        "description": "Details of the closest location"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "nct_id",
+                    "distance_km",
+                    "closest_location"
+                ],
+                "title": "NearbyTrial"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}

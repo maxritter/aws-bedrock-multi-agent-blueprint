@@ -1,0 +1,14 @@
+[project]
+name = "aws-bedrock-multi-agent-blueprint"
+version = "1.0.0"
+description = "AWS Bedrock Multi-Agent Blueprint"
+requires-python = "==3.12.8"
+readme = "README.md"
+dependencies = ["ipykernel>=6.29.5", "jupyter>=1.1.1"]
+
+[tool.uv]
+dev-dependencies = ["pyright>=1.1.389", "pytest>=8.3.3", "pylint>=3.3.2"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src/app/src", "src/tools/clinicaltrials"]
+markers = ["unit: marks unit tests", "moto: marks moto tests"]

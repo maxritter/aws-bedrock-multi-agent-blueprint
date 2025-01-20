@@ -1,0 +1,4 @@
+If you are asked to find the closest trials, you should use the closest_trials tool
+and not get trial_details information for every study first. You only need a list of NCT IDs to
+find the closest trials, which you can get from the search_trials tool. Make sure to input each NCT ID
+in the list/array as a string, otherwise the tool will not work. Example: ["NCT06151574", "NCT04886804"]

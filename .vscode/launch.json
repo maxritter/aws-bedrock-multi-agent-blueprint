@@ -1,0 +1,49 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "LOCAL",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+    },
+    {
+      "name": "APP",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "streamlit",
+      "args": [
+        "run",
+        "${workspaceFolder}/src/app/src/app.py",
+        "--server.port",
+        "8080"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "env": {
+        "RUNTIME_ENV": "local",
+        "SUPERVISOR_AGENT_ID": "",
+        "SUPERVISOR_AGENT_ALIAS_ID": "",
+        "LANGFUSE_PUBLIC_KEY": "",
+        "LANGFUSE_SECRET_KEY": "",
+      }
+    },
+    {
+      "name": "API SCHEMA",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/tools/clinicaltrials/app.py",
+      "args": [
+        ">",
+        "${workspaceFolder}/src/tools/clinicaltrials/schema.json"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+    },
+  ]
+}
