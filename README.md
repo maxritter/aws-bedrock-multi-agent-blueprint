@@ -1,8 +1,10 @@
-# AWS Bedrock Multi-Agent Blueprint
+# 🧰 AWS Bedrock Multi-Agent Blueprint
 
-The AWS Bedrock Multi-Agent Blueprint is a project that allows you to create and deploy multi-agent applications on AWS Bedrock. It is built with the AWS CDK and offers advanced features such as agent collaboration, vector database storage, observability, authentication, and a Streamlit web interface.
+A blueprint for building sophisticated multi-agent applications powered by AWS Bedrock.
 
-Here is a video of the application in action:
+This solution enables seamless deployment of collaborative AI agents that can reason, analyze data, and interact with external tools. Built on AWS CDK, it provides a complete infrastructure featuring vector search capabilities, comprehensive observability, secure authentication, and an intuitive Streamlit interface. Perfect for developers looking to leverage the full potential of AWS Bedrock's AI capabilities in a scalable, secure, and observable way.
+
+🎥 Here is a video of the application in action:
 
 <div align="left">
       <a href="https://www.youtube.com/watch?v=osjZSjEMR78">
@@ -13,18 +15,11 @@ Here is a video of the application in action:
       </a>
     </div>
 
-## Table of Contents
+## Architecture Diagram
 
-- [AWS Bedrock Multi-Agent Blueprint](#aws-bedrock-multi-agent-blueprint)
-  - [Table of Contents](#table-of-contents)
-  - [Features](#features)
-  - [Solution Design](#solution-design)
-  - [Usage](#usage)
-  - [Possible Improvements](#possible-improvements)
-  - [Acknowledgements](#acknowledgements)
-  - [Author](#author)
+![multi-agent-blueprint-architecture](diag/architecture.png)
 
-## Features
+## Key Features
 
 - 🤖 **Multi-Agent Architecture**: Built with AWS Bedrock Agents including a Supervisor Agent, RAG Agent and Tools Agent working together seamlessly as a multi-agent system
 - 🔍 **Knowledge Base Integration**: Leverages AWS Bedrock Knowledge Base for intelligent processing of PDF documents via RAG
@@ -38,11 +33,7 @@ Here is a video of the application in action:
 - 💻 **Streamlit App**: Interactive web interface built with Streamlit for easy interaction with the agents deployed to AWS ECS Fargate
 - 📚 **OpenAPI Schema**: Automatically generated from annotated code of your Lambda function using Lambda Powertools for Bedrock
 
-## Solution Design
-
-![multi-agent-blueprint-solution-design](diag/architecture.png)
-
-## Usage
+## Setup and Usage
 
 - Login to your AWS account, go to AWS Bedrock Model catalog in eu-central-1 region and request access to the following models:
   - Titan Text Embeddings V2
@@ -82,10 +73,11 @@ Here is a video of the application in action:
   ```
 - To regenerate the OpenAPI schema from the annotated code of your Lambda function, run the `API SCHEMA` launch configuration. You can find an overview about the implemented functionality [in this PDF](./data/api/Clinical%20Trials%20Bedrock%20API.pdf).
 
-## Possible Improvements
+## Improvements
+
 - Add end-to-end agent evaluation using a framework like [AWS Agent Evaluation](https://awslabs.github.io/agent-evaluation/) or [LangFuse Evaluation Pipelines](https://langfuse.com/docs/scores/external-evaluation-pipelines)
 - Add a reranker to the knowledge base to improve the quality of the RAG responses as shown in [this code example](https://github.com/aws-samples/amazon-bedrock-samples/blob/main/rag/knowledge-bases/features-examples/02-optimizing-accuracy-retrieved-results/re-ranking_using_kb.ipynb)
-- Split the application into frontend and backend using FastAPI for the backend server, similar to [this example](https://github.com/aws-samples/amazon-bedrock-samples/tree/main/rag/knowledge-bases/features-examples/03-deploying-fastapi-server) that does the same for LangGraph
+- Split the application into frontend and backend using FastAPI for the backend server, similar to [this example](https://github.com/JoshuaC215/agent-service-toolkit/tree/main) that does the same for LangGraph
 - Use a prompt router for Anthropic to route the user's query to the most appropriate agent, as explained in [this example](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/cdk-lib/bedrock/README.md#prompt-routing)
 
 ## Acknowledgements
@@ -102,3 +94,11 @@ If you want to work with me on your next Agent project on AWS, please get in tou
 [![email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mail@maxritter.net)
 [![linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rittermax/)
 [![github](https://img.shields.io/badge/GitHub-2b3137?style=for-the-badge&logo=github&logoColor=white)](https://github.com/maxritter)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
