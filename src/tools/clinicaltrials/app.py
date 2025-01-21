@@ -165,25 +165,4 @@ def lambda_handler(event: dict, context: LambdaContext):
 
 
 if __name__ == "__main__":
-    print(
-        search_trials(
-            lead_sponsor_name="Boehringer Ingelheim",
-            disease_area="lung cancer metastatic",
-            overall_status="RECRUITING",
-            location_country="United States",
-        )
-    )
-    print(trial_details("NCT04886804"))
-    print(
-        closest_trials(
-            nct_ids=[
-                "NCT06151574",
-                "NCT04886804",
-            ],
-            city="New York",
-            max_distance=100,
-        )
-    )
-    print(inclusion_criteria("NCT04886804"))
-    print(exclusion_criteria("NCT04886804"))
-    # print(app.get_openapi_json_schema())
+    print(app.get_openapi_json_schema())
