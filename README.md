@@ -2,7 +2,7 @@
 
 A blueprint for building sophisticated multi-agent applications powered by AWS Bedrock.
 
-**[🎥 Watch a video walkthrough of the application examples](https://www.youtube.com/watch?v=osjZSjEMR78)**
+**[🎥 Watch a video walkthrough of the application examples](https://www.youtube.com/watch?v=C4E9A4qw0tU)**
 
 ## Overview
 
