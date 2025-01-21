@@ -44,9 +44,9 @@ Here is a video of the application in action:
 
 ## Usage
 
-- Login to your AWS account, go to AWS Bedrock Model catalog and request access to the following models:
+- Login to your AWS account, go to AWS Bedrock Model catalog in eu-central-1 region and request access to the following models:
   - Titan Text Embeddings V2
-  - Claude 3.5 Sonnet
+  - Claude 3.5 Sonnet V1
 - Eventually, you may need to increase your AWS account limits / service quota for Claude [as described here](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html)
 - Register a free LangFuse account for observability at [LangFuse](https://langfuse.com/) and create a new project called `multi-agent-blueprint`. Then create a new AWS Secret named `langfuse/api`  that stores the public and private API key as JSON:
   ```json
@@ -80,7 +80,7 @@ Here is a video of the application in action:
     }
   }
   ```
-- To regenerate the OpenAPI schema from the annotated code of your Lambda function, run the `API SCHEMA` launch configuration
+- To regenerate the OpenAPI schema from the annotated code of your Lambda function, run the `API SCHEMA` launch configuration. You can find an overview about the implemented functionality [in this PDF](./data/api/Clinical%20Trials%20Bedrock%20API.pdf).
 
 ## Possible Improvements
 - Add end-to-end agent evaluation using a framework like [AWS Agent Evaluation](https://awslabs.github.io/agent-evaluation/) or [LangFuse Evaluation Pipelines](https://langfuse.com/docs/scores/external-evaluation-pipelines)
