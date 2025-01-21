@@ -8,7 +8,7 @@ This solution enables seamless deployment of collaborative AI agents that can re
 
 **[🎦 Watch a demo walkthrough of the application examples and the user interface](https://www.youtube.com/watch?v=C4E9A4qw0tU)**
 
-**[🤓 Watch a technical walkthrough of the project setup and implementation details](https://www.youtube.com/watch?v=TKmllByzCtU)**
+**[🤓 Watch a technical walkthrough of the project setup and implementation details](https://www.youtube.com/watch?v=6WUlxm-Rffs)**
 
 This is a screenshot of the [Streamlit](https://streamlit.io/) application in action:
 
