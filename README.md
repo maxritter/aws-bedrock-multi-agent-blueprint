@@ -2,22 +2,19 @@
 
 A blueprint for building sophisticated multi-agent applications powered by AWS Bedrock.
 
+**[🎥 Watch a video walkthrough of the application examples](https://www.youtube.com/watch?v=osjZSjEMR78)**
+
+## Overview
+
 This solution enables seamless deployment of collaborative AI agents that can reason, analyze data, and interact with external tools. Built on AWS CDK, it provides a complete infrastructure featuring vector search capabilities, comprehensive observability, secure authentication, and an intuitive Streamlit interface. Perfect for developers looking to leverage the full potential of AWS Bedrock's AI capabilities in a scalable, secure, and observable way.
 
-🎥 Here is a video of the application in action:
+This is a screenshot of the application in action:
 
-<div align="left">
-      <a href="https://www.youtube.com/watch?v=osjZSjEMR78">
-     <img
-      src="https://img.youtube.com/vi/osjZSjEMR78/0.jpg"
-      alt="Bedrock Multi-Agent Blueprint Demo Video"
-      style="width:300px;">
-      </a>
-    </div>
+<a href="images/application.png"><img src="images/application.png" width="600"></a>
 
 ## Architecture Diagram
 
-![multi-agent-blueprint-architecture](diag/architecture.png)
+<a href="diag/architecture.png"><img src="diag/architecture.png" width="600"></a>
 
 ## Key Features
 
@@ -32,6 +29,7 @@ This solution enables seamless deployment of collaborative AI agents that can re
 - 🔐 **Authentication**: Integrated Cognito-based authentication system for secure access control to the application via username / password
 - 💻 **Streamlit App**: Interactive web interface built with Streamlit for easy interaction with the agents deployed to AWS ECS Fargate
 - 📚 **OpenAPI Schema**: Automatically generated from annotated code of your Lambda function using Lambda Powertools for Bedrock
+- 📄 **File Upload**: Support for uploading and analyzing custom PDF files directly in the chat interface
 
 ## Setup and Usage
 
