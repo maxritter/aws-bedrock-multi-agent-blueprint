@@ -41,7 +41,7 @@ export class BedrockStack extends CommonStack {
       return;
     }
 
-    const knowledgeBase = new bedrock.KnowledgeBase(this, this.getResourceId("bedrock-knowledge-base"), {
+    const knowledgeBase = new bedrock.VectorKnowledgeBase(this, this.getResourceId("bedrock-knowledge-base"), {
       name: this.getResourceId("bedrock-knowledge-base"),
       instruction: "Use this knowledge base to answer questions about medical protocols and studies.",
       description: "Knowledge base that contains medical protocols and studies.",
@@ -122,21 +122,15 @@ export class BedrockStack extends CommonStack {
       },
     );
 
-    const clinicalTrialsAction = new bedrock.AgentActionGroup(
-      this,
-      this.getResourceId("bedrock-action-clinical-trials"),
-      {
-        actionGroupName: this.getResourceId("bedrock-action-clinical-trials"),
-        description: "Use these functions to get information about relevant clinical trials.",
-        actionGroupExecutor: {
-          lambda: clinicalTrialsLambda,
-        },
-        actionGroupState: "ENABLED",
-        apiSchema: bedrock.ApiSchema.fromAsset(
-          `${CommonStack.Path.Root}/${CommonStack.Path.Source.ClinicalTrials}/schema.json`,
-        ),
-      },
-    );
+    const clinicalTrialsAction = new bedrock.AgentActionGroup({
+      name: this.getResourceId("bedrock-action-clinical-trials"),
+      description: "Use these functions to get information about relevant clinical trials.",
+      executor: bedrock.ActionGroupExecutor.fromlambdaFunction(clinicalTrialsLambda),
+      enabled: true,
+      apiSchema: bedrock.ApiSchema.fromLocalAsset(
+        `${CommonStack.Path.Root}/${CommonStack.Path.Source.ClinicalTrials}/schema.json`,
+      ),
+    });
 
     const agentRole = new iam.Role(this, this.getResourceId("bedrock-agent-role"), {
       assumedBy: new iam.ServicePrincipal("bedrock.amazonaws.com"),
@@ -154,16 +148,25 @@ export class BedrockStack extends CommonStack {
     );
     const clinicalTrialAgent = new bedrock.Agent(this, this.getResourceId("bedrock-clinical-trial-agent"), {
       name: this.getResourceId("bedrock-clinical-trial-agent"),
-      aliasName: this.getResourceId("bedrock-clinical-trial-agent-alias"),
       description: "Clinical Trial Agent",
       foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
       instruction: clinicalTrialAgentInstructions,
       actionGroups: [clinicalTrialsAction],
       existingRole: agentRole,
-      enableUserInput: true,
+      userInputEnabled: true,
       idleSessionTTL: cdk.Duration.minutes(10),
       shouldPrepareAgent: true,
     });
+
+    const clinicalTrialAgentAlias = new bedrock.AgentAlias(
+      this,
+      this.getResourceId("bedrock-clinical-trial-agent-alias"),
+      {
+        agent: clinicalTrialAgent,
+        aliasName: this.getResourceId("bedrock-clinical-trial-agent-alias"),
+        description: "Alias for the Clinical Trial Agent",
+      },
+    );
 
     const studyProtocolKB = readFileSync(`${CommonStack.Path.Source.Prompts}/protocol_agent_kb.txt`, "utf-8");
     const studyProtocolOrchestration = readFileSync(
@@ -176,48 +179,53 @@ export class BedrockStack extends CommonStack {
     );
     const studyProtocolAgent = new bedrock.Agent(this, this.getResourceId("bedrock-study-protocol-agent"), {
       name: this.getResourceId("bedrock-study-protocol-agent"),
-      aliasName: this.getResourceId("bedrock-study-protocol-agent-alias"),
       description: "Study Protocol Agent",
       foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
       instruction: studyProtocolAgentInstructions,
       knowledgeBases: [knowledgeBase],
       existingRole: agentRole,
-      enableUserInput: true,
+      userInputEnabled: true,
       idleSessionTTL: cdk.Duration.minutes(10),
       shouldPrepareAgent: true,
-      promptOverrideConfiguration: {
-        promptConfigurations: [
-          {
-            promptType: bedrock.PromptType.KNOWLEDGE_BASE_RESPONSE_GENERATION,
-            basePromptTemplate: studyProtocolKB,
-            inferenceConfiguration: {
-              temperature: 0.0,
-              topP: 1,
-              topK: 250,
-              maximumLength: 4096,
-              stopSequences: [],
-            },
-            promptState: bedrock.PromptState.ENABLED,
-            parserMode: bedrock.ParserMode.DEFAULT,
-            promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
+      promptOverrideConfiguration: bedrock.PromptOverrideConfiguration.fromSteps([
+        {
+          stepType: bedrock.AgentStepType.KNOWLEDGE_BASE_RESPONSE_GENERATION,
+          stepEnabled: true,
+          customPromptTemplate: studyProtocolKB,
+          inferenceConfig: {
+            temperature: 0.0,
+            topP: 1,
+            topK: 250,
+            maximumLength: 4096,
+            stopSequences: [],
           },
-          {
-            promptType: bedrock.PromptType.ORCHESTRATION,
-            basePromptTemplate: studyProtocolOrchestration,
-            promptState: bedrock.PromptState.ENABLED,
-            inferenceConfiguration: {
-              temperature: 0.0,
-              topP: 1,
-              topK: 250,
-              maximumLength: 4096,
-              stopSequences: ["</invoke>", "</answer>", "</error>"],
-            },
-            parserMode: bedrock.ParserMode.DEFAULT,
-            promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
+          foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        },
+        {
+          stepType: bedrock.AgentStepType.ORCHESTRATION,
+          stepEnabled: true,
+          customPromptTemplate: studyProtocolOrchestration,
+          inferenceConfig: {
+            temperature: 0.0,
+            topP: 1,
+            topK: 250,
+            maximumLength: 4096,
+            stopSequences: ["</invoke>", "</answer>", "</error>"],
           },
-        ],
-      },
+          foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        },
+      ]),
     });
+
+    const studyProtocolAgentAlias = new bedrock.AgentAlias(
+      this,
+      this.getResourceId("bedrock-study-protocol-agent-alias"),
+      {
+        agent: studyProtocolAgent,
+        aliasName: this.getResourceId("bedrock-study-protocol-agent-alias"),
+        description: "Alias for the Study Protocol Agent",
+      },
+    );
 
     const customResourceRole = new iam.Role(this, this.getResourceId("bedrock-custom-resource-role"), {
       assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com"),
@@ -233,214 +241,48 @@ export class BedrockStack extends CommonStack {
       `${CommonStack.Path.Source.Prompts}/supervisor_agent_instruction.txt`,
       "utf-8",
     );
-    // Create supervisor agent with agent collaboration enabled via CR, as this is not supported by CFN yet
-    const createSupervisorAgent = new cdk.custom_resources.AwsCustomResource(
-      this,
-      this.getResourceId("bedrock-create-supervisor-agent"),
-      {
-        functionName: this.getResourceId("bedrock-create-supervisor-agent"),
-        resourceType: "Custom::BedrockCreateAgent",
-        installLatestAwsSdk: true,
-        timeout: cdk.Duration.minutes(5),
-        onCreate: {
-          service: "@aws-sdk/client-bedrock-agent",
-          action: "CreateAgentCommand",
-          parameters: {
-            agentName: this.getResourceId("bedrock-supervisor-agent"),
-            agentResourceRoleArn: agentRole.roleArn,
-            description: "Supervisor Agent",
-            foundationModel: "anthropic.claude-3-5-sonnet-20240620-v1:0",
-            instruction: supervisorAgentInstruction,
-            idleSessionTTLInSeconds: 1800,
-            agentCollaboration: "SUPERVISOR",
-            orchestrationType: "DEFAULT",
-          },
-          physicalResourceId: cdk.custom_resources.PhysicalResourceId.of(
-            this.getResourceId("bedrock-create-supervisor-agent"),
-          ),
-        },
-        onUpdate: {
-          service: "@aws-sdk/client-bedrock-agent",
-          action: "UpdateAgentCommand",
-          parameters: {
-            agentId: cdk.custom_resources.PhysicalResourceId.fromResponse("agent.agentId"),
-            agentName: this.getResourceId("bedrock-supervisor-agent"),
-            agentResourceRoleArn: agentRole.roleArn,
-            description: "Supervisor Agent",
-            foundationModel: "anthropic.claude-3-5-sonnet-20240620-v1:0",
-            instruction: supervisorAgentInstruction,
-            idleSessionTTLInSeconds: 1800,
-          },
-          physicalResourceId: cdk.custom_resources.PhysicalResourceId.of(
-            this.getResourceId("bedrock-create-supervisor-agent"),
-          ),
-        },
-        onDelete: {
-          service: "@aws-sdk/client-bedrock-agent",
-          action: "DeleteAgentCommand",
-          parameters: {
-            agentId: cdk.custom_resources.PhysicalResourceId.fromResponse("agent.agentId"),
-            skipResourceInUseCheck: true,
-          },
-        },
-        role: customResourceRole,
-      },
-    );
-    createSupervisorAgent.node.addDependency(customResourceRole.node.tryFindChild("DefaultPolicy") as iam.CfnPolicy);
 
-    // Skip remaining resources if supervisor agent creation failed
-    if (!createSupervisorAgent.getResponseField("agent.agentId")) {
-      console.warn(`Failed to create supervisor agent in ${this.stackName}, skipping dependent resources`);
-      this.supervisorAgentId = "";
-      this.supervisorAgentAliasId = "";
-      return;
-    }
-
-    // Enable Code Interpreter for Supervisor Agent via CR, as this is not supported by CFN yet
-    const enableCodeInterpreter = new cdk.custom_resources.AwsCustomResource(
-      this,
-      this.getResourceId("bedrock-supervisor-code-interpreter"),
-      {
-        resourceType: "Custom::BedrockSupervisorCodeInterpreter",
-        onCreate: {
-          service: "@aws-sdk/client-bedrock-agent",
-          action: "CreateAgentActionGroupCommand",
-          parameters: {
-            actionGroupName: this.getResourceId("bedrock-supervisor-code-interpreter"),
-            agentId: createSupervisorAgent.getResponseField("agent.agentId"),
-            actionGroupState: "ENABLED",
-            agentVersion: "DRAFT",
-            parentActionGroupSignature: "AMAZON.CodeInterpreter",
-          },
-          physicalResourceId: cdk.custom_resources.PhysicalResourceId.of(
-            this.getResourceId("bedrock-supervisor-code-interpreter"),
-          ),
-        },
-        role: customResourceRole,
-      },
-    );
-    enableCodeInterpreter.node.addDependency(customResourceRole.node.tryFindChild("DefaultPolicy") as iam.CfnPolicy);
-    enableCodeInterpreter.node.addDependency(createSupervisorAgent);
-
-    // Associate Trial Agent to Supervisor Agent via CR, as this is not supported by CFN yet
-    const associateTrialAgent = new cdk.custom_resources.AwsCustomResource(
-      this,
-      this.getResourceId("bedrock-associate-trial-agent"),
-      {
-        functionName: this.getResourceId("bedrock-associate-trial-agent"),
-        resourceType: "Custom::BedrockAssociateAgent",
-        installLatestAwsSdk: true,
-        timeout: cdk.Duration.minutes(5),
-        onCreate: {
-          service: "@aws-sdk/client-bedrock-agent",
-          action: "AssociateAgentCollaboratorCommand",
-          parameters: {
-            agentId: createSupervisorAgent.getResponseField("agent.agentId"),
-            agentVersion: "DRAFT",
-            agentDescriptor: { aliasArn: clinicalTrialAgent.aliasArn },
-            collaboratorName: clinicalTrialAgent.name,
-            collaborationInstruction: "Use this agent to get information about clinical trials.",
-            relayConversationHistory: "TO_COLLABORATOR",
-          },
-          physicalResourceId: cdk.custom_resources.PhysicalResourceId.of(
-            this.getResourceId("bedrock-associate-trial-agent"),
-          ),
-        },
-        role: customResourceRole,
-      },
-    );
-    associateTrialAgent.node.addDependency(customResourceRole.node.tryFindChild("DefaultPolicy") as iam.CfnPolicy);
-    associateTrialAgent.node.addDependency(createSupervisorAgent);
-    associateTrialAgent.node.addDependency(clinicalTrialAgent);
-
-    const associateProtocolAgent = new cdk.custom_resources.AwsCustomResource(
-      this,
-      this.getResourceId("bedrock-associate-protocol-agent"),
-      {
-        functionName: this.getResourceId("bedrock-associate-protocol-agent"),
-        resourceType: "Custom::BedrockAssociateAgent",
-        installLatestAwsSdk: true,
-        timeout: cdk.Duration.minutes(5),
-        onCreate: {
-          service: "@aws-sdk/client-bedrock-agent",
-          action: "AssociateAgentCollaboratorCommand",
-          parameters: {
-            agentId: createSupervisorAgent.getResponseField("agent.agentId"),
-            agentVersion: "DRAFT",
-            agentDescriptor: { aliasArn: studyProtocolAgent.aliasArn },
-            collaboratorName: studyProtocolAgent.name,
-            collaborationInstruction: "Use this agent to get information about medical study protocols.",
-            relayConversationHistory: "TO_COLLABORATOR",
-          },
-          physicalResourceId: cdk.custom_resources.PhysicalResourceId.of(
-            this.getResourceId("bedrock-associate-protocol-agent"),
-          ),
-        },
-        role: customResourceRole,
-      },
-    );
-    associateProtocolAgent.node.addDependency(customResourceRole.node.tryFindChild("DefaultPolicy") as iam.CfnPolicy);
-    associateProtocolAgent.node.addDependency(createSupervisorAgent);
-    associateProtocolAgent.node.addDependency(studyProtocolAgent);
-
-    const prepareSupervisorAgent = new cdk.custom_resources.AwsCustomResource(
-      this,
-      this.getResourceId("bedrock-prepare-supervisor-agent"),
-      {
-        resourceType: "Custom::BedrockPrepareSupervisorAgent",
-        onCreate: {
-          service: "@aws-sdk/client-bedrock-agent",
-          action: "PrepareAgentCommand",
-          parameters: {
-            agentId: createSupervisorAgent.getResponseField("agent.agentId"),
-          },
-          physicalResourceId: cdk.custom_resources.PhysicalResourceId.of(
-            this.getResourceId("bedrock-prepare-supervisor-agent"),
-          ),
-        },
-        onUpdate: {
-          service: "@aws-sdk/client-bedrock-agent",
-          action: "PrepareAgentCommand",
-          parameters: {
-            agentId: createSupervisorAgent.getResponseField("agent.agentId"),
-          },
-          physicalResourceId: cdk.custom_resources.PhysicalResourceId.of(
-            this.getResourceId("bedrock-prepare-supervisor-agent"),
-          ),
-        },
-        onDelete: {
-          service: "@aws-sdk/client-bedrock-agent",
-          action: "DeleteAgentCommand",
-          parameters: {
-            agentId: createSupervisorAgent.getResponseField("agent.agentId"),
-            skipResourceInUseCheck: true,
-          },
-        },
-        role: customResourceRole,
-      },
-    );
-    prepareSupervisorAgent.node.addDependency(customResourceRole.node.tryFindChild("DefaultPolicy") as iam.CfnPolicy);
-    prepareSupervisorAgent.node.addDependency(enableCodeInterpreter);
-    prepareSupervisorAgent.node.addDependency(associateTrialAgent);
-    prepareSupervisorAgent.node.addDependency(associateProtocolAgent);
-
-    const agentAlias = new cdk.aws_bedrock.CfnAgentAlias(this, this.getResourceId("bedrock-supervisor-agent-alias"), {
-      agentId: createSupervisorAgent.getResponseField("agent.agentId"),
-      agentAliasName: this.getResourceId("bedrock-supervisor-agent-alias"),
+    const supervisorAgent = new bedrock.Agent(this, this.getResourceId("bedrock-supervisor-agent"), {
+      name: this.getResourceId("bedrock-supervisor-agent"),
+      description: "Supervisor Agent",
+      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+      instruction: supervisorAgentInstruction,
+      idleSessionTTL: cdk.Duration.minutes(30),
+      existingRole: agentRole,
+      agentCollaboration: bedrock.AgentCollaboratorType.SUPERVISOR,
+      agentCollaborators: [
+        new bedrock.AgentCollaborator({
+          agentAlias: clinicalTrialAgentAlias,
+          collaborationInstruction: "Use this agent to get information about clinical trials.",
+          collaboratorName: clinicalTrialAgent.name,
+          relayConversationHistory: true,
+        }),
+        new bedrock.AgentCollaborator({
+          agentAlias: studyProtocolAgentAlias,
+          collaborationInstruction: "Use this agent to get information about medical study protocols.",
+          collaboratorName: studyProtocolAgent.name,
+          relayConversationHistory: true,
+        }),
+      ],
+      codeInterpreterEnabled: true,
+      shouldPrepareAgent: true,
+    });
+    const supervisorAgentAlias = new bedrock.AgentAlias(this, this.getResourceId("bedrock-supervisor-agent-alias"), {
+      agent: supervisorAgent,
+      aliasName: this.getResourceId("bedrock-supervisor-agent-alias"),
       description: "Alias for the Supervisor Agent",
     });
-    agentAlias.node.addDependency(prepareSupervisorAgent);
 
     new cdk.CfnOutput(this, this.getResourceId("bedrock-supervisor-agent-id"), {
       exportName: this.getResourceId("bedrock-supervisor-agent-id"),
-      value: createSupervisorAgent.getResponseField("agent.agentId"),
+      value: supervisorAgent.agentId,
     });
     new cdk.CfnOutput(this, this.getResourceId("bedrock-supervisor-agent-alias-id"), {
       exportName: this.getResourceId("bedrock-supervisor-agent-alias-id"),
-      value: agentAlias.attrAgentAliasId,
+      value: supervisorAgentAlias.aliasId,
     });
 
-    this.supervisorAgentId = createSupervisorAgent.getResponseField("agent.agentId");
-    this.supervisorAgentAliasId = agentAlias.attrAgentAliasId;
+    this.supervisorAgentId = supervisorAgent.agentId;
+    this.supervisorAgentAliasId = supervisorAgentAlias.aliasId;
   }
 }

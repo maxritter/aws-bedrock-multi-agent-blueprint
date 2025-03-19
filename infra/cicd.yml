@@ -2,7 +2,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - npm install -g aws-cdk@2.176.0
+      - npm install -g aws-cdk@2.181.1
   build:
     commands:
       - cd infra && cdk deploy --all --require-approval never && cd ..
