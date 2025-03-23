@@ -161,7 +161,6 @@ export class BedrockStack extends CommonStack {
       this.getResourceId("bedrock-clinical-trial-agent-alias"),
       {
         agent: clinicalTrialAgent,
-        aliasName: this.getResourceId("bedrock-clinical-trial-agent-alias"),
         description: "Alias for the Clinical Trial Agent",
       },
     );
@@ -218,7 +217,6 @@ export class BedrockStack extends CommonStack {
       this.getResourceId("bedrock-study-protocol-agent-alias"),
       {
         agent: studyProtocolAgent,
-        aliasName: this.getResourceId("bedrock-study-protocol-agent-alias"),
         description: "Alias for the Study Protocol Agent",
       },
     );
@@ -265,7 +263,6 @@ export class BedrockStack extends CommonStack {
     });
     const supervisorAgentAlias = new bedrock.AgentAlias(this, this.getResourceId("bedrock-supervisor-agent-alias"), {
       agent: supervisorAgent,
-      aliasName: this.getResourceId("bedrock-supervisor-agent-alias"),
       description: "Alias for the Supervisor Agent",
     });
 
