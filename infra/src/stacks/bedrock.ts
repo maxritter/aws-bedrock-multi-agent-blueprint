@@ -56,7 +56,7 @@ export class BedrockStack extends CommonStack {
       dataSourceName: this.getResourceId("bedrock-rag-source"),
       chunkingStrategy: bedrock.ChunkingStrategy.HIERARCHICAL_TITAN,
       parsingStrategy: bedrock.ParsingStategy.foundationModel({
-        parsingModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_7_SONNET_V1_0,
+        parsingModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
       }),
     });
 
@@ -147,7 +147,7 @@ export class BedrockStack extends CommonStack {
     const clinicalTrialAgent = new bedrock.Agent(this, this.getResourceId("bedrock-clinical-trial-agent"), {
       name: this.getResourceId("bedrock-clinical-trial-agent"),
       description: "Clinical Trial Agent",
-      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_7_SONNET_V1_0,
+      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
       instruction: clinicalTrialAgentInstructions,
       actionGroups: [clinicalTrialsAction],
       existingRole: agentRole,
@@ -177,7 +177,7 @@ export class BedrockStack extends CommonStack {
     const studyProtocolAgent = new bedrock.Agent(this, this.getResourceId("bedrock-study-protocol-agent"), {
       name: this.getResourceId("bedrock-study-protocol-agent"),
       description: "Study Protocol Agent",
-      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_7_SONNET_V1_0,
+      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
       instruction: studyProtocolAgentInstructions,
       knowledgeBases: [knowledgeBase],
       existingRole: agentRole,
@@ -239,7 +239,7 @@ export class BedrockStack extends CommonStack {
     const supervisorAgent = new bedrock.Agent(this, this.getResourceId("bedrock-supervisor-agent"), {
       name: this.getResourceId("bedrock-supervisor-agent"),
       description: "Supervisor Agent",
-      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_7_SONNET_V1_0,
+      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
       instruction: supervisorAgentInstruction,
       idleSessionTTL: cdk.Duration.minutes(30),
       existingRole: agentRole,
