@@ -35,9 +35,9 @@ This is a screenshot of the [Streamlit](https://streamlit.io/) application in ac
 
 ## Setup and Usage
 
-1. Login to your AWS account, go to AWS Bedrock Model catalog in eu-central-1 region and request access to the following models:
+1. Login to your AWS account, go to AWS Bedrock Model catalog in us-east-1 region and request access to the following models:
    - Titan Text Embeddings V2
-   - Claude 3.5 Sonnet V1
+   - Claude Sonnet 3.7
 2. Eventually, you may need to increase your AWS account limits / service quota for Claude [as described here](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html)
 3. Register a free LangFuse account for observability at [LangFuse](https://langfuse.com/) and create a new project called `multi-agent-blueprint`. Then create a new AWS Secret named `langfuse/api`  that stores the public and private API key as JSON:
    ```json

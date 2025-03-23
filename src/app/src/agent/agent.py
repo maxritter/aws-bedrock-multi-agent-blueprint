@@ -32,7 +32,7 @@ class Agent:
 
     def __init__(self, langfuse: Langfuse) -> None:
         """Initialize the agent with AWS Bedrock and Langfuse clients."""
-        self.session: Session = boto3.session.Session(region_name=os.getenv("BEDROCK_REGION", "eu-central-1"))
+        self.session: Session = boto3.session.Session(region_name=os.getenv("BEDROCK_REGION", "us-east-1"))
         self.bedrock_agent: BedrockClient = self.session.client("bedrock-agent")
         self.bedrock_agent_runtime: AgentsforBedrockRuntimeClient = self.session.client("bedrock-agent-runtime")
         self.agent_id: str = os.getenv("SUPERVISOR_AGENT_ID")

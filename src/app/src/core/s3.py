@@ -13,8 +13,8 @@ class S3Handler:
 
     def __init__(self) -> None:
         """Initialize the S3 handler with AWS configuration."""
-        self.session = boto3.session.Session(region_name=os.getenv("BEDROCK_REGION", "eu-central-1"))
-        self.s3_client: S3Client = self.session.client("s3", region_name=os.getenv("BEDROCK_REGION", "eu-central-1"))
+        self.session = boto3.session.Session(region_name=os.getenv("BEDROCK_REGION", "us-east-1"))
+        self.s3_client: S3Client = self.session.client("s3", region_name=os.getenv("BEDROCK_REGION", "us-east-1"))
         self.bucket_name = os.getenv("RAG_BUCKET", "multi-agent-blueprint-bedrock-rag")
 
     def list_files(self) -> List[Tuple[str, int]]:

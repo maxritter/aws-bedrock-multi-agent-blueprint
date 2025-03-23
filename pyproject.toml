@@ -7,8 +7,76 @@ readme = "README.md"
 dependencies = ["ipykernel>=6.29.5", "jupyter>=1.1.1"]
 
 [tool.uv]
-dev-dependencies = ["pyright>=1.1.389", "pytest>=8.3.3", "pylint>=3.3.2"]
+dev-dependencies = ["pyright>=1.1.389", "pytest>=8.3.3", "ruff>=0.10.0"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src/app/src", "src/tools/clinicaltrials"]
 markers = ["unit: marks unit tests", "moto: marks moto tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+testpaths = ["src"]
+norecursedirs = [
+    "**/cdk.out/**",
+    "target/**",
+    ".venv/**",
+    "**/.tox/**",
+    "**/build/**",
+    "misc/",
+]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+exclude = [
+    "**/cdk.out/**",
+    "target/**",
+    ".venv/**",
+    "**/.tox/**",
+    "**/build/**",
+    "misc/",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "N", "B", "C4", "SIM", "ERA"]
+ignore = [
+    "D100",
+    "D104",
+    "E902",
+    "E501",
+    "F401",
+    "F403",
+    "F405",
+    "C901",
+    "B905",
+    "N803",
+    "N806",
+    "N815",
+    "W391",
+    "W292",
+    "ERA001",
+    "SIM105",
+    "B008",
+    "B006",
+    "F821",
+    "B012",
+    "F541",
+    "C408",
+    "B007",
+    "B904",
+    "C416",
+    "B017",
+    "SIM108"
+]
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "double"
+
+[tool.ruff.isort]
+case-sensitive = true
+known-first-party = ["app"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

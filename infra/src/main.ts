@@ -11,7 +11,7 @@ const account = process.env.CDK_DEPLOY_ACCOUNT || process.env.CDK_DEFAULT_ACCOUN
 const props: CommonStackProps = {
   env: {
     account: account,
-    region: "eu-central-1",
+    region: "us-east-1",
   },
   appName: "multi-agent-blueprint",
 };

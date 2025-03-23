@@ -20,11 +20,8 @@
         "EraserLabs.eraserlabs",
         "codezombiech.gitignore",
         "eamodio.gitlens",
-        "ms-python.pylint",
-        "ms-python.flake8",
-        "ms-python.black-formatter",
-        "ms-python.isort",
         "matangover.mypy",
+        "charliermarsh.ruff",
         "42Crunch.vscode-openapi"
     ]
 }

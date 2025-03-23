@@ -570,7 +570,7 @@ def process_trace_event(
             if sub_agent_id:
                 try:
                     agent_name = (
-                        boto3.client("bedrock-agent", region_name=os.getenv("BEDROCK_REGION", "eu-central-1"))
+                        boto3.client("bedrock-agent", region_name=os.getenv("BEDROCK_REGION", "us-east-1"))
                         .get_agent(agentId=sub_agent_id)
                         .get("agent")
                         .get("agentName")

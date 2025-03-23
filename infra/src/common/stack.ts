@@ -30,13 +30,13 @@ export abstract class CommonStack extends cdk.Stack {
 
   getRegion(): string {
     if (this.props && this.props.env) {
-      return this.props.env.region || "eu-central-1";
+      return this.props.env.region || "us-east-1";
     }
-    return "eu-central-1";
+    return "us-east-1";
   }
 
   getAvailabilityZones(): string[] {
-    return ["eu-central-1a", "eu-central-1b"];
+    return ["us-east-1a", "us-east-1b"];
   }
 }
 
