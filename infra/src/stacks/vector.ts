@@ -23,9 +23,8 @@ export class VectorStack extends CommonStack {
     });
 
     this.vectorStore = new amazonaurora.AmazonAuroraVectorStore(this, this.getResourceId("vector-store"), {
-      embeddingsModelVectorDimension: 512,
-      postgreSQLVersion: amazonaurora.SupportedPostgreSQLVersions.AURORA_POSTGRESQL_V16_3,
       clusterId: this.getResourceId("vector-store"),
+      embeddingsModelVectorDimension: 512,
       vpc: vpc,
       databaseName: "vectorDB",
       schemaName: "bedrock_integration",

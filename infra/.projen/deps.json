@@ -20,7 +20,7 @@
     },
     {
       "name": "aws-cdk",
-      "version": "^2.181.1",
+      "version": "^2.189.0",
       "type": "build"
     },
     {
@@ -85,12 +85,12 @@
     },
     {
       "name": "@aws-sdk/client-bedrock-agent",
-      "version": "3.723.0",
+      "version": "3.787.0",
       "type": "runtime"
     },
     {
       "name": "@cdklabs/generative-ai-cdk-constructs",
-      "version": "0.1.298",
+      "version": "0.1.302",
       "type": "runtime"
     },
     {
@@ -100,7 +100,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.181.1",
+      "version": "^2.189.0",
       "type": "runtime"
     },
     {

@@ -53,14 +53,16 @@ This is a screenshot of the [Streamlit](https://streamlit.io/) application in ac
    uv pip install -r src/app/requirements.dev.txt
    uv pip install -r src/tools/clinicaltrials/requirements.dev.txt
    ```
-5. Execute the following commands to deploy the infrastructure via AWS CDK:
+5. To fix a [bug with the creation of the vector store](https://github.com/awslabs/generative-ai-cdk-constructs/issues/1070), replace the content of `infra/node_modules/@cdklabs/generative-ai-cdk-constructs/lambda/amazon-aurora-pgvector-custom-resources/custom_resources/amazon_aurora_pgvector.py` with the content of [this file](https://raw.githubusercontent.com/awslabs/generative-ai-cdk-constructs/6cef71759e244f9e359b49df597bafe0a928229f/lambda/amazon-aurora-pgvector-custom-resources/custom_resources/amazon_aurora_pgvector.py)
+6. Execute the following commands to deploy the infrastructure via AWS CDK:
    ```bash
    cd infra && cdk bootstrap
    DOCKER_DEFAULT_PLATFORM=linux/amd64 cdk deploy --require-approval never --all
    ```
-6. In the AWS Console under Bedrock Knowledge Bases, open the created knowledge base and make sure the data source sync is completed, otherwise trigger it manually
-7. Go to the AWS Console and create a new Cognito user with username and password. Use this to login to the Streamlit app over the HTTP URL that is printed out after the deployment is complete
-8. For local testing, set the Supervisor Agent ID and Alias ID as well as your LangFuse API keys in the `.vscode/launch.json` file, then run the `APP` launch configuration:
+
+7. In the AWS Console under Bedrock Knowledge Bases, open the created knowledge base and make sure the data source sync is completed, otherwise trigger it manually
+8. Go to the AWS Console and create a new Cognito user with username and password. Use this to login to the Streamlit app over the HTTP URL that is printed out after the deployment is complete
+9. For local testing, set the Supervisor Agent ID and Alias ID as well as your LangFuse API keys in the `.vscode/launch.json` file, then run the `APP` launch configuration:
    ```json
    {
      "env": {

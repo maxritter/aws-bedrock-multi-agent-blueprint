@@ -7,7 +7,7 @@ readme = "README.md"
 dependencies = ["ipykernel>=6.29.5", "jupyter>=1.1.1"]
 
 [tool.uv]
-dev-dependencies = ["pyright>=1.1.389", "pytest>=8.3.3", "ruff>=0.10.0"]
+dev-dependencies = ["pylance>=0.24.1", "pytest>=8.3.3", "ruff>=0.10.0"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src/app/src", "src/tools/clinicaltrials"]

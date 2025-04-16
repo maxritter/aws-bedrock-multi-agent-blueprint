@@ -80,7 +80,7 @@ export class BedrockStack extends CommonStack {
       entry: CommonStack.Path.Source.RAGDataSync,
       functionName: this.getResourceId("bedrock-rag-sync-lambda"),
       handler: "handler",
-      timeout: cdk.Duration.minutes(5),
+      timeout: cdk.Duration.minutes(15),
       role: ragSyncLambdaRole,
       environment: {
         KNOWLEDGE_BASE_ID: knowledgeBase.knowledgeBaseId,
