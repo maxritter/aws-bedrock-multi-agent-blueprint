@@ -6,7 +6,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: "master",
   github: false,
   deps: [
-    "@cdklabs/generative-ai-cdk-constructs@0.1.302",
+    "@cdklabs/generative-ai-cdk-constructs@0.1.304",
     "@aws-sdk/client-bedrock-agent@3.787.0",
     "constructs@10.3.0",
     "@aws-cdk/aws-lambda-python-alpha@2.181.1-alpha.0",

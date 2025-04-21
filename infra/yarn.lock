@@ -736,13 +736,13 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cdklabs/generative-ai-cdk-constructs@0.1.302":
-  version "0.1.302"
-  resolved "https://registry.yarnpkg.com/@cdklabs/generative-ai-cdk-constructs/-/generative-ai-cdk-constructs-0.1.302.tgz#272dbc747e7214cdd24f1bbb5dbe0fa477e5a804"
-  integrity sha512-otBLjxvFiHAqMq9SYGS8VIllIKEVaseiZ4xBLVuLglk6TOXeGdMNJbmBrfK3kWqn4cEjK1J3tC/a8fmwlSdPVQ==
+"@cdklabs/generative-ai-cdk-constructs@0.1.304":
+  version "0.1.304"
+  resolved "https://registry.yarnpkg.com/@cdklabs/generative-ai-cdk-constructs/-/generative-ai-cdk-constructs-0.1.304.tgz#4e232229216a1bca85e0ba8f6b9afaedfeabb83e"
+  integrity sha512-rmSBUj2Qj4nvL1vZ4gRnYvVn5V4RlKVAv6NCYbdOP+sDLIWuiuZZrmsRYKSayhQYgFiB09JFtaPYBdIzxvx4og==
   dependencies:
     "@aws-cdk/aws-lambda-python-alpha" "2.189.0-alpha.0"
-    cdk-nag "^2.35.69"
+    cdk-nag "^2.35.72"
     deepmerge "^4.3.1"
 
 "@cspotcode/source-map-support@^0.8.0":
@@ -2425,10 +2425,10 @@ cdk-ecr-deployment@3.0.70:
     got "^11.8.6"
     hpagent "^0.1.2"
 
-cdk-nag@^2.35.69:
-  version "2.35.71"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.71.tgz#cbe866e55c57947d610cb0093e146d0c63a228d8"
-  integrity sha512-71UqBB7KUOHtf5CTW3sXaC3eJfl7N0UxRT4yYLyW+UC3CooBE4F7YtwxJFuMAfok/Qui3aVJ6PDKhT3vAU898g==
+cdk-nag@^2.35.72:
+  version "2.35.76"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.76.tgz#a8c796eb00705ce87cbbdf0d2428c76da028866b"
+  integrity sha512-DFOL9oPryb3EPLwPYGAUqJTKtYSJwKeOHJUno+kmBOkMbWVRoB72GbzytewERDx913OiHU8MgpakzX+m5LsoBA==
 
 chalk@^4.0.0, chalk@^4.0.2, chalk@^4.1.2:
   version "4.1.2"
