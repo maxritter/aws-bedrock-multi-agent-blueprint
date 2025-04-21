@@ -1,10 +1,14 @@
 # 🧰 AWS Bedrock Multi-Agent Blueprint
 
-A blueprint for building sophisticated multi-agent applications powered by AWS Bedrock.
+A sophisticated blueprint for building production-ready, multi-agent applications powered on AWS Bedrock 🤖
 
-## Overview
+This solution enables seamless deployment of collaborative AI agents that can reason, analyze data, and interact with external tools. Built on AWS CDK, it provides a complete infrastructure featuring graph search capabilities, comprehensive observability, secure authentication, and an intuitive interface. Perfect for developers looking to leverage the full potential of AWS Bedrock's AI capabilities in a scalable, secure, and observable way 🚀
 
-This solution enables seamless deployment of collaborative AI agents that can reason, analyze data, and interact with external tools. Built on AWS CDK, it provides a complete infrastructure featuring vector search capabilities, comprehensive observability, secure authentication, and an intuitive interface. Perfect for developers looking to leverage the full potential of AWS Bedrock's AI capabilities in a scalable, secure, and observable way 🚀
+## Architecture
+
+<a href="diag/architecture.png"><img src="diag/architecture.png" width="600"></a>
+
+## Demo
 
 **[🎦 Watch a demo walkthrough of the application examples and the user interface](https://www.youtube.com/watch?v=C4E9A4qw0tU)**
 
@@ -14,10 +18,6 @@ This is a screenshot of the [Streamlit](https://streamlit.io/) application in ac
 
 <a href="images/application.png"><img src="images/application.png" width="600"></a>
 
-## Architecture Diagram
-
-<a href="diag/architecture.png"><img src="diag/architecture.png" width="600"></a>
-
 ## Key Features
 
 - 🤖 **Multi-Agent Architecture**: Built with AWS Bedrock Agents including a Supervisor Agent, RAG Agent and Tools Agent working together seamlessly as a multi-agent system
@@ -25,7 +25,7 @@ This is a screenshot of the [Streamlit](https://streamlit.io/) application in ac
 - 🔄 **Tools Calling Integration**: Custom Bedrock Action group for fetching and analyzing relevant clinical trials data from ClinicalTrials.gov using AWS Lambda
 - 🧮 **Code Interpreter**: Built-in Code Interpreter capabilities for data analysis and visualization tasks that is able to generate images and HTML code
 - 🎯 **Prompt Engineering**: Custom prompt templates and configurations for knowledge base responses and orchestration of the Bedrock Agents
-- 📊 **Vector Database Storage**: Uses Amazon Aurora Vector Store for efficient storage and retrieval of embeddings for RAG
+- 📊 **Graph Database Storage**: Uses Amazon Neptune Graph Database for efficient storage and retrieval of embeddings for RAG
 - 📈 **Observability**: Built-in monitoring and tracing with LangFuse integration for evaluation, tracing, and cost tracking
 - 🛠️ **Infrastructure as Code**: Complete AWS CDK v2 for TypeScript setup with projen for consistent infrastructure management
 - 🔐 **Authentication**: Integrated Cognito-based authentication system for secure access control to the application via username / password

@@ -1,4 +1,4 @@
-import { amazonaurora, bedrock } from "@cdklabs/generative-ai-cdk-constructs";
+import { bedrock, neptune } from "@cdklabs/generative-ai-cdk-constructs";
 import * as cdk from "aws-cdk-lib";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as lambda from "aws-cdk-lib/aws-lambda";
@@ -12,7 +12,7 @@ import { EventType } from "aws-cdk-lib/aws-s3";
 import { readFileSync } from "fs";
 
 export interface BedrockStackProps extends CommonStackProps {
-  vectorStore: amazonaurora.AmazonAuroraVectorStore;
+  graphStore: neptune.NeptuneGraph;
 }
 
 export class BedrockStack extends CommonStack {
@@ -41,12 +41,12 @@ export class BedrockStack extends CommonStack {
       return;
     }
 
-    const knowledgeBase = new bedrock.VectorKnowledgeBase(this, this.getResourceId("bedrock-knowledge-base"), {
+    const knowledgeBase = new bedrock.GraphKnowledgeBase(this, this.getResourceId("bedrock-knowledge-base"), {
       name: this.getResourceId("bedrock-knowledge-base"),
       instruction: "Use this knowledge base to answer questions about medical protocols and studies.",
       description: "Knowledge base that contains medical protocols and studies.",
-      embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_512,
-      vectorStore: props.vectorStore,
+      embeddingModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_512,
+      graph: props.graphStore,
     });
 
     const ragSource = new bedrock.S3DataSource(this, this.getResourceId("bedrock-rag-source"), {
@@ -58,6 +58,10 @@ export class BedrockStack extends CommonStack {
       parsingStrategy: bedrock.ParsingStategy.foundationModel({
         parsingModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
       }),
+      contextEnrichment: bedrock.ContextEnrichment.foundationModel({
+        enrichmentModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
+      }),
+      dataDeletionPolicy: bedrock.DataDeletionPolicy.DELETE,
     });
 
     const ragSyncLambdaRole = new iam.Role(this, this.getResourceId("bedrock-rag-sync-lambda-role"), {

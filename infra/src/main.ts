@@ -1,6 +1,6 @@
 import * as cdk from "aws-cdk-lib";
 import { CommonStack, CommonStackProps } from "./common/stack";
-import { VectorStack } from "./stacks/vector";
+import { GraphStack } from "./stacks/graph";
 import { BedrockStack } from "./stacks/bedrock";
 import { AuthStack } from "./stacks/auth";
 import { AppStack } from "./stacks/app";
@@ -16,19 +16,19 @@ const props: CommonStackProps = {
   appName: "multi-agent-blueprint",
 };
 
-const vectorStackId = CommonStack.generateResourceId("vector-stack", props);
-const vectorStack = new VectorStack(app, vectorStackId, {
+const graphStackId = CommonStack.generateResourceId("graph-stack", props);
+const graphStack = new GraphStack(app, graphStackId, {
   ...props,
-  stackName: vectorStackId,
+  stackName: graphStackId,
 });
 
 const bedrockStackId = CommonStack.generateResourceId("bedrock-stack", props);
 const bedrockStack = new BedrockStack(app, bedrockStackId, {
   ...props,
   stackName: bedrockStackId,
-  vectorStore: vectorStack.vectorStore,
+  graphStore: graphStack.graphStore,
 });
-bedrockStack.addDependency(vectorStack);
+bedrockStack.addDependency(graphStack);
 
 const authStackId = CommonStack.generateResourceId("auth-stack", props);
 const authStack = new AuthStack(app, authStackId, { ...props, stackName: authStackId });
@@ -45,5 +45,5 @@ const appStack = new AppStack(app, appStackId, {
   supervisorAgentAliasId: bedrockStack.supervisorAgentAliasId,
 });
 appStack.addDependency(authStack);
-appStack.addDependency(vectorStack);
 appStack.addDependency(bedrockStack);
+appStack.addDependency(graphStack);

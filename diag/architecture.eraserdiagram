@@ -11,12 +11,12 @@ AWS [icon: aws, label: "AWS Account"] {
         Cognito [icon: aws-cognito, label: "Cognito Users"]
         Service [icon: aws-ecs, label: "App Service"]
     }
-    
+
     Storage [color: red, icon: server, label: "Storage"] {
         Bucket [icon: aws-s3, label: "S3 PDF Bucket"]
-        Vector [icon: aws-rds, label: "RDS Vector Database"]
+        Graph [icon: aws-neptune, label: "Neptune Graph Database"]
     }
-    
+
     Bedrock [color: blue, icon: server, label: "Bedrock Agents"] {
         Supervisor [icon: aws-sagemaker, label: "Supervisor Agent"]
         RAG [icon: aws-sagemaker, label: "RAG Agent"]
@@ -25,7 +25,7 @@ AWS [icon: aws, label: "AWS Account"] {
         KB [icon: aws-bedrock, label: "Knowledge Base"]
         LLM [icon: claude, label: "Claude 3.5 Sonnet"]
     }
-    
+
     LangFuse [color: green, icon: server, label: "LangFuse Monitoring"] {
         Evaluation [icon: aws-cloudwatch, label: "Evaluation"]
         Tracing [icon: aws-cloudtrail, label: "Tracing"]
@@ -37,8 +37,8 @@ ECR > Service
 Cognito > Service
 Service > User
 Service > Supervisor
-Bucket > Vector: Generate Embeddings
-Vector > KB: Fetch Embeddings
+Bucket > Graph: Generate Embeddings
+Graph > KB: Fetch Embeddings
 RAG > KB: RAG
 Supervisor > RAG: Multi-Agent Collaboration
 Supervisor > Tools: Multi-Agent Collaboration
