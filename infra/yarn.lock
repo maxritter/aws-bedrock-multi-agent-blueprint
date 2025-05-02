@@ -35,10 +35,10 @@
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-python-alpha/-/aws-lambda-python-alpha-2.181.1-alpha.0.tgz#cf1c3c0f981a804bf07712732d82fde947e9cabf"
   integrity sha512-5XbME5iJODME8EDLhwjZf1qpEql93QGV31pIrKwjLC4AOPhLxsKkQfRaSg4469S7jgkcWIh18MDlO0oXsVT9sg==
 
-"@aws-cdk/aws-lambda-python-alpha@2.189.0-alpha.0":
-  version "2.189.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-python-alpha/-/aws-lambda-python-alpha-2.189.0-alpha.0.tgz#f6e41cc2e8a2eeb88494d0333fd89d2ebcaae295"
-  integrity sha512-8CQTqj7jnqIgvOe3qYlYiWSgDdm8vHz+zLo+vplLDSazpwrpR14goig1WXiO26vpfqNTX0dIyFbx+NJk/A4PiQ==
+"@aws-cdk/aws-lambda-python-alpha@2.191.0-alpha.0":
+  version "2.191.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-python-alpha/-/aws-lambda-python-alpha-2.191.0-alpha.0.tgz#cf20e55966b02b8d62d9c6cc4516d2c31954461a"
+  integrity sha512-HEA2gnrv3dYzor6a73YDnco1xDB7cGzgHJojKO9vJTnE49aVLVqXUAIjP+IS79+PZjh3bS4xbbHd4JzAiQFoww==
 
 "@aws-cdk/cloud-assembly-schema@^39.0.1":
   version "39.1.50"
@@ -736,13 +736,13 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cdklabs/generative-ai-cdk-constructs@0.1.304":
-  version "0.1.304"
-  resolved "https://registry.yarnpkg.com/@cdklabs/generative-ai-cdk-constructs/-/generative-ai-cdk-constructs-0.1.304.tgz#4e232229216a1bca85e0ba8f6b9afaedfeabb83e"
-  integrity sha512-rmSBUj2Qj4nvL1vZ4gRnYvVn5V4RlKVAv6NCYbdOP+sDLIWuiuZZrmsRYKSayhQYgFiB09JFtaPYBdIzxvx4og==
+"@cdklabs/generative-ai-cdk-constructs@0.1.308":
+  version "0.1.308"
+  resolved "https://registry.yarnpkg.com/@cdklabs/generative-ai-cdk-constructs/-/generative-ai-cdk-constructs-0.1.308.tgz#8e07fde1a88ca5b5780df98787d8e4ad2377d1d5"
+  integrity sha512-t6VQn2hx/3+lPgpoyn0O1ToU+Jtme8J4CNApPmyJNzCfy89r4NB+yzYfCQTf1kUjigdm9MsKby2CeobeSRojvg==
   dependencies:
-    "@aws-cdk/aws-lambda-python-alpha" "2.189.0-alpha.0"
-    cdk-nag "^2.35.72"
+    "@aws-cdk/aws-lambda-python-alpha" "2.191.0-alpha.0"
+    cdk-nag "^2.35.82"
     deepmerge "^4.3.1"
 
 "@cspotcode/source-map-support@^0.8.0":
@@ -2155,10 +2155,10 @@ aws-cdk-lib@^2.0.0:
     table "^6.8.2"
     yaml "1.10.2"
 
-aws-cdk-lib@^2.189.0:
-  version "2.189.1"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.189.1.tgz#57681865d0ff138a26299066695c06c46329bcb7"
-  integrity sha512-9JU0yUr2iRTJ1oCPrHyx7hOtBDWyUfyOcdb6arlumJnMcQr2cyAMASY8HuAXHc8Y10ipVp8dRTW+J4/132IIYA==
+aws-cdk-lib@^2.191.0:
+  version "2.194.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.194.0.tgz#9480155eb80caff3e1013ca9aaa8a2cd6c4f133b"
+  integrity sha512-v12l31Rx/BDjXEyMsfSmDRsjZu0AzHMoRHDqbcSzDcvSYHjnEW/nuFR0R1+tat9nEX8h54GDctduL6pFcJ8xUg==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.229"
     "@aws-cdk/asset-node-proxy-agent-v6" "^2.1.0"
@@ -2175,10 +2175,10 @@ aws-cdk-lib@^2.189.0:
     table "^6.9.0"
     yaml "1.10.2"
 
-aws-cdk@^2.189.0:
-  version "2.1007.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1007.0.tgz#cdeca2bd3a4a628c73c9dab3ac37f29d3f63b223"
-  integrity sha512-/UOYOTGWUm+pP9qxg03tID5tL6euC+pb+xo0RBue+xhnUWwj/Bbsw6DbqbpOPMrNzTUxmM723/uMEQmM6S26dw==
+aws-cdk@^2.191.0:
+  version "2.1013.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1013.0.tgz#14663ede2456b53dc26024ce29b8cc599803138e"
+  integrity sha512-cbq4cOoEIZueMWenGgfI4RujS+AQ9GaMCTlW/3CnvEIhMD8j/tgZx7PTtgMuvwYrRoEeb/wTxgLPgUd5FhsoHA==
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -2425,10 +2425,10 @@ cdk-ecr-deployment@3.0.70:
     got "^11.8.6"
     hpagent "^0.1.2"
 
-cdk-nag@^2.35.72:
-  version "2.35.76"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.76.tgz#a8c796eb00705ce87cbbdf0d2428c76da028866b"
-  integrity sha512-DFOL9oPryb3EPLwPYGAUqJTKtYSJwKeOHJUno+kmBOkMbWVRoB72GbzytewERDx913OiHU8MgpakzX+m5LsoBA==
+cdk-nag@^2.35.82:
+  version "2.35.86"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.86.tgz#decd3e99f587f779f54c7e529dfe9d223c516ab4"
+  integrity sha512-S3nlJ3I9qgQEkVBPvKklulOa0CsmEtTMSY+ZJmIvChUwEvU+h/McTyvJbG1C0hrkp0dhTDw1Wo4ABktu+AMDHQ==
 
 chalk@^4.0.0, chalk@^4.0.2, chalk@^4.1.2:
   version "4.1.2"

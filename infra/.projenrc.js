@@ -1,12 +1,12 @@
 const { awscdk } = require("projen");
-const cdkVersion = "2.189.0";
+const cdkVersion = "2.191.0";
 const project = new awscdk.AwsCdkTypeScriptApp({
   cdkVersion,
   name: "aws-bedrock-multi-agent-blueprint",
   defaultReleaseBranch: "master",
   github: false,
   deps: [
-    "@cdklabs/generative-ai-cdk-constructs@0.1.304",
+    "@cdklabs/generative-ai-cdk-constructs@0.1.308",
     "@aws-sdk/client-bedrock-agent@3.787.0",
     "constructs@10.3.0",
     "@aws-cdk/aws-lambda-python-alpha@2.181.1-alpha.0",

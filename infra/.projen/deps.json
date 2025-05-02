@@ -20,7 +20,7 @@
     },
     {
       "name": "aws-cdk",
-      "version": "^2.189.0",
+      "version": "^2.191.0",
       "type": "build"
     },
     {
@@ -90,7 +90,7 @@
     },
     {
       "name": "@cdklabs/generative-ai-cdk-constructs",
-      "version": "0.1.304",
+      "version": "0.1.308",
       "type": "runtime"
     },
     {
@@ -100,7 +100,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.189.0",
+      "version": "^2.191.0",
       "type": "runtime"
     },
     {

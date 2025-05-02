@@ -55,7 +55,7 @@ export class BedrockStack extends CommonStack {
       knowledgeBase: knowledgeBase,
       dataSourceName: this.getResourceId("bedrock-rag-source"),
       chunkingStrategy: bedrock.ChunkingStrategy.HIERARCHICAL_TITAN,
-      parsingStrategy: bedrock.ParsingStategy.foundationModel({
+      parsingStrategy: bedrock.ParsingStrategy.foundationModel({
         parsingModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
       }),
       contextEnrichment: bedrock.ContextEnrichment.foundationModel({
